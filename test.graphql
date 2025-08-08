@@ -1,0 +1,151 @@
+type TestOutputObject1 {
+  nullable: String
+  nonNullable: String!
+  list: [String]
+  listNonNullable: [String!]
+  listNonNullableNonNullable: [String!]!
+}
+
+type TestOutputObject2 {
+  nullable: String
+  nonNullable: String!
+  list: [String]
+  listNonNullable: [String!]
+  listNonNullableNonNullable: [String!]!
+}
+
+union TestUnion = TestOutputObject1 | TestOutputObject2
+enum TestEnum {
+  TEST_ENUM_VALUE_1
+  TEST_ENUM_VALUE_2
+}
+
+input TestInputObject1 {
+  nullable: String
+  nonNullable: String!
+  list: [String]
+  listNonNullable: [String!]
+  listNonNullableNonNullable: [String!]!
+}
+
+input TestInputObject2 {
+  nullable: String
+  nonNullable: String!
+  list: [String]
+  listNonNullable: [String!]
+  listNonNullableNonNullable: [String!]!
+}
+
+type TestOutputObject {
+  nullableScalar: String
+  nonNullableScalar: String!
+  listScalar: [String]
+  listNonNullableScalar: [String!]
+  listNonNullableNonNullableScalar: [String!]!
+  enum: TestEnum
+  enumNonNullable: TestEnum!
+  enumList: [TestEnum]
+  enumListNonNullable: [TestEnum!]
+  enumListNonNullableNonNullable: [TestEnum!]!
+  union: TestUnion
+  unionNonNullable: TestUnion!
+  unionList: [TestUnion]
+  unionListNonNullable: [TestUnion!]
+  unionListNonNullableNonNullable: [TestUnion!]!
+  object: TestOutputObject1
+  objectNonNullable: TestOutputObject1!
+  objectList: [TestOutputObject1]
+  objectListNonNullable: [TestOutputObject1!]
+  objectListNonNullableNonNullable: [TestOutputObject1!]!
+  recursive: TestOutputObject
+}
+
+input TestInputObject {
+  nullableScalar: String
+  nonNullableScalar: String!
+  listScalar: [String]
+  listNonNullableScalar: [String!]
+  listNonNullableNonNullableScalar: [String!]!
+  enum: TestEnum
+  enumNonNullable: TestEnum!
+  enumList: [TestEnum]
+  enumListNonNullable: [TestEnum!]
+  enumListNonNullableNonNullable: [TestEnum!]!
+  object: TestInputObject1
+  objectNonNullable: TestInputObject1!
+  objectList: [TestInputObject1]
+  objectListNonNullable: [TestInputObject1!]
+  objectListNonNullableNonNullable: [TestInputObject1!]!
+  recursive: TestInputObject
+}
+
+# type TestUnionMember1 {
+#   testUnionMember1: String
+# }
+
+# type TestUnionMember2 {
+#   testUnionMember2: String
+# }
+
+# union TestUnion = TestUnionMember1 | TestUnionMember2
+
+# type TestWithUnion {
+#   testWithUnionNullable: TestUnion
+#   testWithUnionNonNullable: TestUnion!
+#   testWithUnionList: [TestUnion]
+#   testWithUnionListNonNullable: [TestUnion!]
+#   testWithUnionListList: [[TestUnion]]
+#   testWithUnionListListNonNullable: [[TestUnion]!]
+#   testWithUnionListListList: [[[TestUnion]]]
+#   testWithUnionListListListNonNullable: [[[TestUnion]]!]
+# }
+
+# type TestObject {
+#   testObjectKey: String
+# }
+
+# type TestWithObject {
+#   testWithObjectNullable: TestObject
+#   testWithObjectNonNullable: TestObject!
+#   testWithObjectList: [TestObject]
+#   testWithObjectListNonNullable: [TestObject!]
+#   testWithObjectListList: [[TestObject]]
+#   testWithObjectListListNonNullable: [[TestObject]!]
+#   testWithObjectListListList: [[[TestObject]]]
+#   testWithObjectListListListNonNullable: [[[TestObject]]!]
+# }
+
+# enum TestEnum {
+#   TEST_ENUM_VALUE_1
+#   TEST_ENUM_VALUE_2
+# }
+
+# type TestWithEnum {
+#   testWithEnumNullable: TestEnum
+#   testWithEnumNonNullable: TestEnum!
+#   testWithEnumList: [TestEnum]
+#   testWithEnumListNonNullable: [TestEnum!]
+#   testWithEnumListList: [[TestEnum]]
+#   testWithEnumListListNonNullable: [[TestEnum]!]
+#   testWithEnumListListList: [[[TestEnum]]]
+#   testWithEnumListListListNonNullable: [[[TestEnum]]!]
+# }
+
+# input TestInputObject {
+#   testInputObjectKey: String
+# }
+
+# input TestWithInputObject {
+#   testWithInputObjectNullable: TestInputObject
+#   testWithInputObjectNonNullable: TestInputObject!
+#   testWithInputObjectList: [TestInputObject]
+#   testWithInputObjectListNonNullable: [TestInputObject!]
+#   testWithInputObjectListList: [[TestInputObject]]
+#   testWithInputObjectListListNonNullable: [[TestInputObject]!]
+#   testWithInputObjectListListList: [[[TestInputObject]]]
+#   testWithInputObjectListListListNonNullable: [[[TestInputObject]]!]
+# }
+
+# input RecursiveInputObject {
+#   recursive: RecursiveInputObject
+# }

@@ -1,0 +1,24 @@
+{
+  "name": "gql-playground",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "generate": "tsx main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "graphql": "^16.11.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "prettier": "^3.6.2",
+    "ts-morph": "^26.0.0",
+    "tsx": "^4.20.3",
+    "zod": "^4.0.15"
+  }
+}
