@@ -7,9 +7,7 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLInputObjectType,
-  type GraphQLField,
-  type GraphQLInputField,
-  isNonNullType,
+  type GraphQLField, isNonNullType,
   isListType,
   isScalarType,
   isEnumType,
@@ -17,7 +15,7 @@ import {
   isObjectType,
   isInputObjectType,
   getNullableType,
-  type GraphQLType,
+  type GraphQLType
 } from "graphql";
 import { createStrictMatchRegex } from "./utils.js";
 

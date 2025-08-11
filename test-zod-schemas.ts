@@ -106,6 +106,30 @@ export const TestInputObjectSchema = z.object({
     return TestInputObjectSchema.optional();
   },
 });
+
+export const TestCreateActionSchema = z.object({
+  type: z.literal("TEST_CREATE"),
+  scope: z.literal("test1"),
+  input: z.object({
+    nullable: StringSchema.optional(),
+    nonNullable: StringSchema,
+    list: z.array(StringSchema.optional()).optional(),
+    listNonNullable: z.array(StringSchema).optional(),
+    listNonNullableNonNullable: z.array(StringSchema),
+  }),
+});
+
+export const TestUpdateActionSchema = z.object({
+  type: z.literal("TEST_UPDATE"),
+  scope: z.literal("test2"),
+  input: z.object({
+    nullable: StringSchema.optional(),
+    nonNullable: StringSchema,
+    list: z.array(StringSchema.optional()).optional(),
+    listNonNullable: z.array(StringSchema).optional(),
+    listNonNullableNonNullable: z.array(StringSchema),
+  }),
+});
 export type String = z.infer<typeof StringSchema>;
 export type Int = z.infer<typeof IntSchema>;
 export type Decimal = z.infer<typeof DecimalSchema>;
@@ -123,4 +147,6 @@ export type TestInputObject1 = z.infer<typeof TestInputObject1Schema>;
 export type TestInputObject2 = z.infer<typeof TestInputObject2Schema>;
 export type TestOutputObject = z.infer<typeof TestOutputObjectSchema>;
 export type TestInputObject = z.infer<typeof TestInputObjectSchema>;
+export type TestCreateAction = z.infer<typeof TestCreateActionSchema>;
+export type TestUpdateAction = z.infer<typeof TestUpdateActionSchema>;
 

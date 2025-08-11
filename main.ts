@@ -1,17 +1,5 @@
-import { readFileSync, writeFileSync } from "node:fs";
-import {
-  buildSchema,
-  isEnumType,
-  isInputObjectType,
-  isObjectType,
-  isUnionType,
-} from "graphql";
-import { format } from "prettier";
-import { Project } from "ts-morph";
-import { stripSchemaSuffix } from "./utils.js";
-import { handleObject } from "./processors.js";
-import { primitives } from "./primitives.js";
-const SHOULD_FORMAT = true;
+import { addInferredTypeExports } from "./ts-morph.js";
+import { addActionSchemasToZodMap, addEnumZodSchemasToZodMap, addObjectZodSchemasToZodMap, addUnionZodSchemasToZodMap, getZodSchemasFileName, makeGraphQLTypeMap, makeZodMap, makeZodSchemaStringsFromZodMap, readGraphQLSchemaFile, writeZodSchemasToFile, type Action } from "./utils.js";
 
 async function main() {
   const pathToGraphqlSchema = process.argv[2];
@@ -19,65 +7,30 @@ async function main() {
     console.error("No path to graphql schema provided");
     process.exit(1);
   }
-  const schemaString = readFileSync(pathToGraphqlSchema, "utf8");
-  const schema = buildSchema(schemaString);
 
-  const typeMap = Object.values(schema.getTypeMap()).filter(
-    (type) => !type.name.startsWith("__")
-  );
-
-  const zodMap = new Map<string, string>(Object.entries(primitives.shape));
-
-  const enums = typeMap.filter((type) => isEnumType(type));
-
-  for (const e of enums) {
-    const name = e.name;
-    const values = e.getValues().map((value) => value.name);
-    const schema = `z.enum([${values.map((value) => `"${value}"`).join(", ")}])`;
-    zodMap.set(name, schema);
-  }
-
-  const unions = typeMap.filter((type) => isUnionType(type));
-  for (const u of unions) {
-    const name = u.name;
-    const types = u
-      .getTypes()
-      .map((type) => type.name)
-      .map((t) => `z.lazy(() => ${t}Schema)`);
-    const schema = `z.union([${types.join(", ")}])`;
-    zodMap.set(name, schema);
-  }
-
-  const objects = typeMap.filter((type) => isObjectType(type) || isInputObjectType(type));
-
-  for (const o of objects) {
-    zodMap.set(o.name, handleObject(o));
-  }
-
-  const schemas = Array.from(zodMap.entries()).map(([name, schema]) => {
-    return `export const ${name}Schema = ${schema};`;
-  });
-
-  let result = schemas.join("\n\n");
-  result = SHOULD_FORMAT
-    ? await format(result, { parser: "typescript" })
-    : result;
-  const fileName = pathToGraphqlSchema.replace(".graphql", "-zod-schemas.ts");
-  writeFileSync(
-    fileName,
-    `import { z } from "zod";\n\n${result}`
-  );
-  const project = new Project({
-    tsConfigFilePath: "./tsconfig.json",
-  });
-  const sourceFile = project.addSourceFileAtPath(fileName);
-  const inferredTypeExports: string[] = [];
-  for (const [name] of sourceFile.getExportedDeclarations()) {
-    inferredTypeExports.push(
-      `export type ${stripSchemaSuffix(name)} = z.infer<typeof ${name}>;\n`
-    );
-  }
-  sourceFile.addStatements(inferredTypeExports);
-  project.save();
+  const schema = await readGraphQLSchemaFile(pathToGraphqlSchema);
+  const graphqlTypeMap = makeGraphQLTypeMap(schema);
+  
+  const zodMap = makeZodMap();
+  addEnumZodSchemasToZodMap(zodMap, graphqlTypeMap);
+  addUnionZodSchemasToZodMap(zodMap, graphqlTypeMap);
+  addObjectZodSchemasToZodMap(zodMap, graphqlTypeMap);
+  const actions: Action[] = [
+    {
+      type: "test create",
+      scope: "test1",
+      inputNameOrDefinition: "TestInputObject1"
+    },
+    {
+      type: "test update",
+      scope: "test2",
+      inputNameOrDefinition: "TestInputObject2"
+    }
+  ]
+  addActionSchemasToZodMap(zodMap, graphqlTypeMap, actions);
+  const fileName = getZodSchemasFileName(pathToGraphqlSchema);
+  const schemas = makeZodSchemaStringsFromZodMap(zodMap);
+  await writeZodSchemasToFile(fileName, schemas);
+  await addInferredTypeExports(fileName);
 }
 await main();

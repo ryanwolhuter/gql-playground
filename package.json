@@ -16,6 +16,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "change-case": "^5.4.4",
     "prettier": "^3.6.2",
     "ts-morph": "^26.0.0",
     "tsx": "^4.20.3",
