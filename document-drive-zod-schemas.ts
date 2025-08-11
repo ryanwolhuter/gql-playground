@@ -4,11 +4,17 @@ export const StringSchema = z.string();
 
 export const IntSchema = z.number();
 
+export const DecimalSchema = z.number();
+
 export const FloatSchema = z.number();
 
 export const BooleanSchema = z.boolean();
 
 export const IDSchema = z.string();
+
+export const DateTimeSchema = z.date();
+
+export const JSONSchema = z.json();
 
 export const UnknownSchema = z.unknown();
 
@@ -153,7 +159,7 @@ export const SetAvailableOfflineInputSchema = z.object({
 });
 
 export const AddListenerInputSchema = z.object({
-  listener: z.unknown(),
+  listener: ListenerSchema,
 });
 
 export const RemoveListenerInputSchema = z.object({
@@ -161,7 +167,7 @@ export const RemoveListenerInputSchema = z.object({
 });
 
 export const AddTriggerInputSchema = z.object({
-  trigger: z.unknown(),
+  trigger: TriggerSchema,
 });
 
 export const RemoveTriggerInputSchema = z.object({
@@ -169,9 +175,12 @@ export const RemoveTriggerInputSchema = z.object({
 });
 export type String = z.infer<typeof StringSchema>;
 export type Int = z.infer<typeof IntSchema>;
+export type Decimal = z.infer<typeof DecimalSchema>;
 export type Float = z.infer<typeof FloatSchema>;
 export type Boolean = z.infer<typeof BooleanSchema>;
 export type ID = z.infer<typeof IDSchema>;
+export type DateTime = z.infer<typeof DateTimeSchema>;
+export type JSON = z.infer<typeof JSONSchema>;
 export type Unknown = z.infer<typeof UnknownSchema>;
 export type TransmitterType = z.infer<typeof TransmitterTypeSchema>;
 export type TriggerType = z.infer<typeof TriggerTypeSchema>;

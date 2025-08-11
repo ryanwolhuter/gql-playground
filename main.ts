@@ -1,4 +1,4 @@
-import { readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import {
   buildSchema,
   isEnumType,
@@ -9,7 +9,7 @@ import {
 import { format } from "prettier";
 import { Project } from "ts-morph";
 import { stripSchemaSuffix } from "./utils.js";
-import { handleOutputObject, handleInputObject } from "./processors.js";
+import { handleObject } from "./processors.js";
 import { primitives } from "./primitives.js";
 const SHOULD_FORMAT = true;
 
@@ -48,16 +48,10 @@ async function main() {
     zodMap.set(name, schema);
   }
 
-  const outputObjects = typeMap.filter((type) => isObjectType(type));
+  const objects = typeMap.filter((type) => isObjectType(type) || isInputObjectType(type));
 
-  for (const o of outputObjects) {
-    zodMap.set(o.name, handleOutputObject(o));
-  }
-
-  const inputObjects = typeMap.filter((type) => isInputObjectType(type));
-
-  for (const i of inputObjects) {
-    zodMap.set(i.name, handleInputObject(i));
+  for (const o of objects) {
+    zodMap.set(o.name, handleObject(o));
   }
 
   const schemas = Array.from(zodMap.entries()).map(([name, schema]) => {

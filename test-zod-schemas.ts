@@ -4,11 +4,17 @@ export const StringSchema = z.string();
 
 export const IntSchema = z.number();
 
+export const DecimalSchema = z.number();
+
 export const FloatSchema = z.number();
 
 export const BooleanSchema = z.boolean();
 
 export const IDSchema = z.string();
+
+export const DateTimeSchema = z.date();
+
+export const JSONSchema = z.json();
 
 export const UnknownSchema = z.unknown();
 
@@ -31,6 +37,22 @@ export const TestOutputObject1Schema = z.object({
 });
 
 export const TestOutputObject2Schema = z.object({
+  nullable: StringSchema.optional(),
+  nonNullable: StringSchema,
+  list: z.array(StringSchema.optional()).optional(),
+  listNonNullable: z.array(StringSchema).optional(),
+  listNonNullableNonNullable: z.array(StringSchema),
+});
+
+export const TestInputObject1Schema = z.object({
+  nullable: StringSchema.optional(),
+  nonNullable: StringSchema,
+  list: z.array(StringSchema.optional()).optional(),
+  listNonNullable: z.array(StringSchema).optional(),
+  listNonNullableNonNullable: z.array(StringSchema),
+});
+
+export const TestInputObject2Schema = z.object({
   nullable: StringSchema.optional(),
   nonNullable: StringSchema,
   list: z.array(StringSchema.optional()).optional(),
@@ -64,22 +86,6 @@ export const TestOutputObjectSchema = z.object({
   },
 });
 
-export const TestInputObject1Schema = z.object({
-  nullable: StringSchema.optional(),
-  nonNullable: StringSchema,
-  list: z.array(StringSchema.optional()).optional(),
-  listNonNullable: z.array(StringSchema).optional(),
-  listNonNullableNonNullable: z.array(StringSchema),
-});
-
-export const TestInputObject2Schema = z.object({
-  nullable: StringSchema.optional(),
-  nonNullable: StringSchema,
-  list: z.array(StringSchema.optional()).optional(),
-  listNonNullable: z.array(StringSchema).optional(),
-  listNonNullableNonNullable: z.array(StringSchema),
-});
-
 export const TestInputObjectSchema = z.object({
   nullableScalar: StringSchema.optional(),
   nonNullableScalar: StringSchema,
@@ -102,16 +108,19 @@ export const TestInputObjectSchema = z.object({
 });
 export type String = z.infer<typeof StringSchema>;
 export type Int = z.infer<typeof IntSchema>;
+export type Decimal = z.infer<typeof DecimalSchema>;
 export type Float = z.infer<typeof FloatSchema>;
 export type Boolean = z.infer<typeof BooleanSchema>;
 export type ID = z.infer<typeof IDSchema>;
+export type DateTime = z.infer<typeof DateTimeSchema>;
+export type JSON = z.infer<typeof JSONSchema>;
 export type Unknown = z.infer<typeof UnknownSchema>;
 export type TestEnum = z.infer<typeof TestEnumSchema>;
 export type TestUnion = z.infer<typeof TestUnionSchema>;
 export type TestOutputObject1 = z.infer<typeof TestOutputObject1Schema>;
 export type TestOutputObject2 = z.infer<typeof TestOutputObject2Schema>;
-export type TestOutputObject = z.infer<typeof TestOutputObjectSchema>;
 export type TestInputObject1 = z.infer<typeof TestInputObject1Schema>;
 export type TestInputObject2 = z.infer<typeof TestInputObject2Schema>;
+export type TestOutputObject = z.infer<typeof TestOutputObjectSchema>;
 export type TestInputObject = z.infer<typeof TestInputObjectSchema>;
 
